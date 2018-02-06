@@ -1,0 +1,67 @@
+body {
+	background-color: aliceblue;
+	color: black;
+	font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+	font-family:"ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro",Osaka, "メイリオ", Meiryo, "ＭＳ Ｐゴシック", "MS PGothic", sans-serif;
+}
+h1, h2, h3 {
+	font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+	font-weight: lighter;
+}
+main {
+	max-width: 34em;
+	margin: auto;
+	padding: 10px;
+	background: white;
+	border: 3px double;
+	border-radius: 5px;
+}
+article {
+	text-align: justify;
+	text-align-last: left;
+}
+.explorer ol, .explorer ul {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	text-align: center;
+	list-style-type: none;
+	padding: 0;
+	white-space: nowrap;
+}
+.explorer li {
+	margin: 15px;
+}
+.explorer li a {
+	padding-left: 5px;
+	padding-right: 5px;
+	transition: box-shadow 0.5s, color 1s;
+	border: 1px solid;
+	text-decoration: none;
+	cursor: pointer;
+}
+header {
+	text-align: center;
+}
+.explorer li a:hover {
+	box-shadow: -3px 3px 10px;
+}
+ul {
+	list-style-type: none;
+	padding: 0;
+}
+footer {
+	text-align: center;
+	margin: auto;
+}
+nav a {
+	text-decoration: none;
+}
+a,
+a:visited {
+	outline: none;
+	color: inherit;
+}
+a:hover {
+	text-decoration: none;
+}
