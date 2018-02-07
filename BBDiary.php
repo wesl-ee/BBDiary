@@ -4,12 +4,10 @@
  *
  * Prettyboy-yumi
 */
-
-/*
- * User configuration
-*/
 define("CONFIG_BBDIARY_HOMEPAGE", "http://bbdiary.prettyboytellem.com/");
 define("CONFIG_DIARY_FSPATH", "/var/http/bbdemo");
+define("CONFIG_APACHE2_XSENDFILE", false);
+define("CONFIG_LIGHTTPD_XSENDFILE", false);
 
 
 /******************************************************\
@@ -43,7 +41,12 @@ else if (is_file($abspath)) {
 		$fsize = filesize($abspath);
 		header("Content-Type: $mtype");
 		header("Content-Length: $fsize");
-		header("X-LIGHTTPD-send-file: $abspath");
+		if (CONFIG_LIGHTTPD_XSENDFILE)
+			header("X-LIGHTTPD-send-file: $abspath");
+		else if (CONFIG_APACHE2_XSENDFILE)
+			header("X-Sendfile: $abspath");
+		else
+			readfile($abspath);
 		die;
 	}
 } ?>
