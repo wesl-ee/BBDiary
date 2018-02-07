@@ -1,7 +1,7 @@
 <?php
 /* User configuration */
 define("CANON_WEBPATH", "/");
-define("DIARY", "/var/diary");
+define("DIARY", "/var/http/bbdemo");
 
 // Current working directory
 $relpath = $_GET['path'] ?: '/';
@@ -9,6 +9,7 @@ $relpath = $_GET['path'] ?: '/';
 $abspath = realpath(DIARY . $relpath);
 if (is_dir($abspath)) $abspath .= '/';
 
+/* Error Handling */
 if (!$abspath) {
 	$errresponse = "$_SERVER[SERVER_PROTOCOL] 404 Not Found";
 	header($errresponse);
@@ -35,11 +36,10 @@ else if (is_file($abspath)) {
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel=stylesheet href="<?php print CANON_WEBPATH?>yumi.css">
 </head>
-<body>
-<main class=explorer>
+<body><main>
 <header>
 <h1>BBDiary</h1>
-<h3><?php
+<nav><?php
 	if ($errresponse) {
 		print '<a href="' . CANON_WEBPATH . '">Home</a>';
 	} else {
@@ -53,10 +53,10 @@ else if (is_file($abspath)) {
 			}
 			$chunkedpath .= urlencode($chunk);
 			$chunkedpath = str_replace("%2F", "/", $chunkedpath);
-			print " <a href='" . "$chunkedpath'>$chunk</a> ";
+			print "<a href='" . "$chunkedpath'>$chunk</a>";
 		}
 	}
-?></h3>
+?></nav>
 </header>
 <hr>
 <?php
