@@ -53,15 +53,83 @@ else if (is_file($abspath)) {
 <!DOCTYPE HTML>
 <HTML>
 <head>
-	<title>BBDiary</title>
+	<title>My BBDiary</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link href="data:image/x-icon;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQEAYAAABPYyMiAAAABmJLR0T///////8JWPfcAAAACXBIWXMAAABIAAAASABGyWs+AAAAF0lEQVRIx2NgGAWjYBSMglEwCkbBSAcACBAAAeaR9cIAAAAASUVORK5CYII=" rel="icon" type="image/x-icon">
+	<!-- BB Diary favicon -->
+	<link href="data:image/ico;base64,AAABAAEAEBAQAAAAAAAoAQAAFgAAACgAAAAQA
+	AAAIAAAAAEABAAAAAAAgAAAAAAAAAAAAAAAEAAAAAAAAAD/ScwAAAAAAP8AAAD///8AAAAA
+	AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAERERERERERE
+	SIiIiIiIiITMjIyMjIyIxEyMjMyMyIjETIyMjIyMiMRMjIyMjIyMjMiMjMyMzIyMSIiIiIi
+	IiIRAAAAAAAAABEzMzADMzMAETMAMwMwAzARMzMzAzMzMBEzADMDMAMwETMzMAMzMwARAAA
+	AAAAAABEREREREREREAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+	AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" rel=icon type="image/x-icon">
 	<style>
 	/* Main Layout */
 		body {
 			background-color: aliceblue;
 			color: black;
-			background-image: url('data:image/gif;base64,R0lGODlhLAEsAZEAAP/83y4QUR0AQv///yH/C05FVFNDQVBFMi4wAwEAAAAh+QQFDwADACwAAAAALAEsAQAC/5SPqcvtD6OctNqLs968+w+G4kiW5omm6sq27gvH8kzXNhcE9873vpgL5n7EovFoECqRzKaTpQQsn9SqSmeLTq3c7icgrQkBZLLQi05jsDQl2K2Oy5lu6XmOT+az7u1e/fY30+cniMZmCEM4lNjoaLKI+DhJudFXiZmpcafZ6fkJGio6SlpqeoqaqrrK2ur6ChsrO0tba+tFeKvLt7jrq6jF+Tt80mcXRJwMOVZ2LKkc80xqDAc9GIZKXWj9EpgdycgtIz0KHi6OvhYJlD68DuLd7lsdEi9/v4mvv8/f7/8PMKAlcgL5XSro7x1CfGMOLpTXkN5DdEGaOSM4kViwJf8YM+7aqMUjN3B6RFojWamjyRG5MNlbeQVZJ5Uwa9q8+Y8mznnYnJzb2UTnDjA9gZ4UajSpUg9I3Zl8mQ7qwqa/qC69ijWr1q1cu3r9Cjas2LFknZaNJfXsNztqWREtY7UtpRxs5a5Ka7dU3Lx8+yba67cR3sCfABM+jDix4sWMGzt+DDmy5MmUK1u+jDmz5s2cO3v+DDq06NGkv5ROM/g0HdWsW7u2Zfi1oqLRYoem+9MFUdtilr41M4h3G9o7cQsPdbxfatk+kjN/Dj269OnUq1u/nsE59g7Lt+v2Dko7+Ox1x497K35f+kfo1zMkPq4K3a7uK3TvAYb1ffyt65v//w9ggAIOSGCBBh6IYIIKLshggw6C5d+C+6GWW2MRirHNgwO9UaGGF0TUoYcU0NVMiCJKAOKFA1Yk04kbmvhAiy6+KOOM9rFYo40o4gijjguQCJeKAabo443G9VhkAg4lOSKSTD4JZZRSTklllVZeiWWWWm7JZZdefgmmXUIeOGGUZUo5Zphqrslmm26+CWeccs5JZ5123olnTWkWeKaZef4JaKCCDjqXk1NKZNmeyyw5WZ9EgKRoUpGylOKk11VUoqE+QmppdZBqiVKWConK6JaaEnreqU8iSmqGV7ZkaqZfsgqqqt2sOVin0RnHgKMN/gafALpCxyuYvjI5LKrKlC7LbLOz4hqsqc5OS2211l6LbbbabotQsuAdm6S33I77K7Tibncuuequm5OtyArTbrqTuIocFPSKQyty0dZTalQcuivYvkzBCtGR8vaGQi/vyZoQiKmIx+PBjmyUjcDZ/QsQpnA9bLE6OaqH411qhWyBxJx9HAG4KZWl8rwdY2Uyf+zOTHPNNt+Mc84678xzzz5PVgAAIfkEBQ8AAwAsAAAHACwBEgEAAv+cj6nL7Q8jC7Lai7PevPsPhuJIluaJpipHGe0Kx/JM1/aN5/quvvwPDAqHxKLxiEwql8ym8wmNSqfUqvWKzWq33K73Cw6Lx+Sy+YxOq9fstvsNj8vn9Lr9js/r9/y+/w8YKDhIWGh4iJiouMjY6PgIGSk5SVlpeYmZqbnJ2en5CRoqOkpaanqKmqq6ytrq+gobKztLW2t7i5uru8vb6/sLHCw8TFxsfIycrLzM3Oz8DB0tPU1d4VOddo29ffyizQ0u/B1OXm5+jp6uvs7e7v4OHy8/T19vf4+fr7/P3+//DzCgwIEECxo8iDChwoUMGzrUMO6hRDLeJlpEE/Gixo3BHDt6/AgypMiRJEuaTJDxpIiUKjewbPkggEyYNI28rIkzp86dPHv6/Ak0qNChRIsaPYo0qdKlj24yPVrxqVSUU6tavYo1q9atXLt6/Qo2rNixZMuaPYs2rdq1bNu6fQs3rty5dOvavYs3r969fPv6/Qs4sODBhAsbPow4MV2nivlFbYyQMeTJlCtbvow5s+bNnDt7/gw6tOjRpEubPo06terVrFu7fg07tuzZtGvbvo07t+7dvHtT9E3tMXBokiMUAAAh+QQFDwADACxWAAgA1gDVAAAC/5yPF8ntD6OctNqLs5Zr7Q+G4kiWlWem6sq27gvH8kzX9o3n+s73/g8MCofEovGITCqXzKbzCY1Kp9Sq9YrNarfcrvcLDovH5LL5jE6r1+y2+w2Py+f0uv2Oz+v3/L7/DxgoOEhYaHiImKi4yNjo+AgZKTlJWWl5iZmpucnZ6fkJGio6SlpqeoqaqrrK2ur6ChsrO0trilIr04FLc7vr+wscLDxMXGx8jJysvMzc7PwMHS09TV1tfY2drb3N3e39DR4uPv7bC65Lbk6+zt7u/g4fLz9PX29/j2+g7r3/3Z8PMKDAgQQLGjyIMKHChQwbOnwIMSLCf9vQjaMoMaPGjTscO3r8CDKkyJEkS5o8iTKlypUsW7p8CTOmzJk0a9q8iTOnzp08e/r8CTSo0KFEixo9ChJjNovilL4pAAAh+QQJDwADACwAAAAALAEsAQAC/5yPqcvtD6OctNqLs968+w+G4kiW5omm6sq27gvH8kzX9o3n+s73/g8MCofEovGITColgKXzCWU0m9GqNUm9arfcrvcLDovH5LL5jE6r1+y2+w2Py+f0uv2Oz+v3/L7/DxgoOEhYaHiImKi4yNioGOAYKTl5BGlgSZmpuVmDyfkJGio6SlpqeoqaqrrK2ur6ChsrO0tba3ur5om7y5t7oNsbLAwGPGx8jJysvMzc7PwMHS09TV1tfY2drb3N3e39DR4uPk5ebn6Onq6+zh6W1f41Be8+X29/j5+vv8/f7/8PMKDAgQQLGjyIMKHChQwbOnwIMaLEiRQrWryIMaPGjeYcO3r8CFLIu5Ao5JFUMfKkypUsW7p8CTOmzJk0a9q8iTPngpQ6J/Ds6ROo0KFEixo9ijSp0qVMmzp9CjWq1KlUq1q9WuEnU5NStWL9CjbsJbFNMRUjW/Qs2rVs27p9Czeu3Ll069q9izev3r18+/r9Cziw4MGECxs+jDix4sWMGzt+DDmy5MmUK1u+jDkzDq9KuUblrDm06NGkS5s+jTq16iFqV/Mz65pg69i0a9u+jTu37t28e/v+DTy48OHEixs/jjy58uXMmzuvNfv5NdjSwUWvjj279u3cu3v/Dj68+PHkywMvAAA7');
+
+			/* Starry background */
+			background-image: url('data:image/gif;base64,R0lGODlh\
+			LAEsAZEAAP/83y4QUR0AQv///yH/C05FVFNDQVBFMi4wAwEAAAAh+\
+			QQFDwADACwAAAAALAEsAQAC/5SPqcvtD6OctNqLs968+w+G4kiW5o\
+			mm6sq27gvH8kzXNhcE9873vpgL5n7EovFoECqRzKaTpQQsn9SqSme\
+			LTq3c7icgrQkBZLLQi05jsDQl2K2Oy5lu6XmOT+az7u1e/fY30+cn\
+			iMZmCEM4lNjoaLKI+DhJudFXiZmpcafZ6fkJGio6SlpqeoqaqrrK2\
+			ur6ChsrO0tba+tFeKvLt7jrq6jF+Tt80mcXRJwMOVZ2LKkc80xqDA\
+			c9GIZKXWj9EpgdycgtIz0KHi6OvhYJlD68DuLd7lsdEi9/v4mvv8/\
+			f7/8PMKAlcgL5XSro7x1CfGMOLpTXkN5DdEGaOSM4kViwJf8YM+7a\
+			qMUjN3B6RFojWamjyRG5MNlbeQVZJ5Uwa9q8+Y8mznnYnJzb2UTnD\
+			jA9gZ4UajSpUg9I3Zl8mQ7qwqa/qC69ijWr1q1cu3r9Cjas2LFknZ\
+			aNJfXsNztqWREtY7UtpRxs5a5Ka7dU3Lx8+yba67cR3sCfABM+jDi\
+			x4sWMGzt+DDmy5MmUK1u+jDmz5s2cO3v+DDq06NGkv5ROM/g0HdWs\
+			W7u2Zfi1oqLRYoem+9MFUdtilr41M4h3G9o7cQsPdbxfatk+kjN/D\
+			j269OnUq1u/nsE59g7Lt+v2Dko7+Ox1x497K35f+kfo1zMkPq4K3a\
+			7uK3TvAYb1ffyt65v//w9ggAIOSGCBBh6IYIIKLshggw6C5d+C+6G\
+			WW2MRirHNgwO9UaGGF0TUoYcU0NVMiCJKAOKFA1Yk04kbmvhAiy6+\
+			KOOM9rFYo40o4gijjguQCJeKAabo443G9VhkAg4lOSKSTD4JZZRST\
+			klllVZeiWWWWm7JZZdefgmmXUIeOGGUZUo5Zphqrslmm26+CWeccs\
+			5JZ5123olnTWkWeKaZef4JaKCCDjqXk1NKZNmeyyw5WZ9EgKRoUpG\
+			ylOKk11VUoqE+QmppdZBqiVKWConK6JaaEnreqU8iSmqGV7ZkaqZf\
+			sgqqqt2sOVin0RnHgKMN/gafALpCxyuYvjI5LKrKlC7LbLOz4hqsq\
+			c5OS2211l6LbbbabotQsuAdm6S33I77K7Tibncuuequm5OtyArTbr\
+			qTuIocFPSKQyty0dZTalQcuivYvkzBCtGR8vaGQi/vyZoQiKmIx+P\
+			BjmyUjcDZ/QsQpnA9bLE6OaqH411qhWyBxJx9HAG4KZWl8rwdY2Uy\
+			f+zOTHPNNt+Mc84678xzzz5PVgAAIfkEBQ8AAwAsAAAHACwBEgEAA\
+			v+cj6nL7Q8jC7Lai7PevPsPhuJIluaJpipHGe0Kx/JM1/aN5/quvv\
+			wPDAqHxKLxiEwql8ym8wmNSqfUqvWKzWq33K73Cw6Lx+Sy+YxOq9f\
+			stvsNj8vn9Lr9js/r9/y+/w8YKDhIWGh4iJiouMjY6PgIGSk5SVlp\
+			eYmZqbnJ2en5CRoqOkpaanqKmqq6ytrq+gobKztLW2t7i5uru8vb6\
+			/sLHCw8TFxsfIycrLzM3Oz8DB0tPU1d4VOddo29ffyizQ0u/B1OXm\
+			5+jp6uvs7e7v4OHy8/T19vf4+fr7/P3+//DzCgwIEECxo8iDChwoU\
+			MGzrUMO6hRDLeJlpEE/Gixo3BHDt6/AgypMiRJEuaTJDxpIiUKjew\
+			bPkggEyYNI28rIkzp86dPHv6/Ak0qNChRIsaPYo0qdKlj24yPVrxq\
+			VSUU6tavYo1q9atXLt6/Qo2rNixZMuaPYs2rdq1bNu6fQs3rty5dO\
+			vavYs3r969fPv6/Qs4sODBhAsbPow4MV2nivlFbYyQMeTJlCtbvow\
+			5s+bNnDt7/gw6tOjRpEubPo06terVrFu7fg07tuzZtGvbvo07t+7d\
+			vHtT9E3tMXBokiMUAAAh+QQFDwADACxWAAgA1gDVAAAC/5yPF8ntD\
+			6OctNqLs5Zr7Q+G4kiWlWem6sq27gvH8kzX9o3n+s73/g8MCofEov\
+			GITCqXzKbzCY1Kp9Sq9YrNarfcrvcLDovH5LL5jE6r1+y2+w2Py+f\
+			0uv2Oz+v3/L7/DxgoOEhYaHiImKi4yNjo+AgZKTlJWWl5iZmpucnZ\
+			6fkJGio6SlpqeoqaqrrK2ur6ChsrO0trilIr04FLc7vr+wscLDxMX\
+			Gx8jJysvMzc7PwMHS09TV1tfY2drb3N3e39DR4uPv7bC65Lbk6+zt\
+			7u/g4fLz9PX29/j2+g7r3/3Z8PMKDAgQQLGjyIMKHChQwbOnwIMSL\
+			Cf9vQjaMoMaPGjTscO3r8CDKkyJEkS5o8iTKlypUsW7p8CTOmzJk0\
+			a9q8iTOnzp08e/r8CTSo0KFEixo9ChJjNovilL4pAAAh+QQJDwADA\
+			CwAAAAALAEsAQAC/5yPqcvtD6OctNqLs968+w+G4kiW5omm6sq27g\
+			vH8kzX9o3n+s73/g8MCofEovGITColgKXzCWU0m9GqNUm9arfcrvc\
+			LDovH5LL5jE6r1+y2+w2Py+f0uv2Oz+v3/L7/DxgoOEhYaHiImKi4\
+			yNioGOAYKTl5BGlgSZmpuVmDyfkJGio6SlpqeoqaqrrK2ur6ChsrO\
+			0tba3ur5om7y5t7oNsbLAwGPGx8jJysvMzc7PwMHS09TV1tfY2drb\
+			3N3e39DR4uPk5ebn6Onq6+zh6W1f41Be8+X29/j5+vv8/f7/8PMKD\
+			AgQQLGjyIMKHChQwbOnwIMaLEiRQrWryIMaPGjeYcO3r8CFLIu5Ao\
+			5JFUMfKkypUsW7p8CTOmzJk0a9q8iTPngpQ6J/Ds6ROo0KFEixo9i\
+			jSp0qVMmzp9CjWq1KlUq1q9WuEnU5NStWL9CjbsJbFNMRUjW/Qs2r\
+			Vs27p9Czeu3Ll069q9izev3r18+/r9Cziw4MGECxs+jDix4sWMGzt\
+			+DDmy5MmUK1u+jDkzDq9KuUblrDm06NGkS5s+jTq16iFqV/Mz65pg\
+			69i0a9u+jTu37t28e/v+DTy48OHEixs/jjy58uXMmzuvNfv5NdjSw\
+			UWvjj279u3cu3v/Dj68+PHkywMvAAA7');
+
 			font-family:"ヒラギノ角ゴ Pro W3",
 			"Hiragino Kaku Gothic Pro",
 			Osaka,
@@ -71,81 +139,49 @@ else if (is_file($abspath)) {
 			"MS PGothic",
 			sans-serif;
 		}
-		h1, h2, h3 {
-			font-family: "Palatino Linotype",
+		h1 { font-family: "Palatino Linotype",
 			"Book Antiqua",
 			Palatino,
 			serif;
-			font-weight: lighter;
-		}
-		h1 a, h2 a, h3 a {
-			text-decoration: none;
-		}
+			font-weight: lighter; }
+		h1 a, h2 a, h3 a { text-decoration: none; }
 	/* Reader */
-		main {
-			max-width: 34em;
+		main { max-width: 34em;
 			margin: auto;
 			padding: 10px;
 			background: white;
 			border: 3px double;
-			border-radius: 5px;
-		}
-		ol, ul {
-			display: flex;
+			border-radius: 5px; }
+		ol, ul { display: flex;
 			flex-wrap: wrap;
 			justify-content: center;
 			list-style-type: none;
 			white-space: nowrap;
 			list-style-type: none;
-			padding: 0;
-		}
-		li {
-			margin: 15px;
-		}
-		li a {
-			padding-left: 5px;
+			padding: 0; }
+		li { margin: 15px; }
+		li a { padding-left: 5px;
 			padding-right: 5px;
 			transition: box-shadow 0.5s, color 1s;
 			border: 1px solid;
 			text-decoration: none;
-			cursor: pointer;
-		}
-		li a:hover {
-			box-shadow: -3px 3px 10px;
-		}
-		article {
-			text-align: justify;
-		}
-
-		header {
-			text-align: center;
-		}
-
-		footer {
-			text-align: center;
-			margin: auto;
-		}
-		a,
-		a:visited {
-			outline: none;
-			color: inherit;
-		}
-		a:hover {
-			text-decoration: none;
-		}
+			cursor: pointer; }
+		.hoverbox { transition: box-shadow 0.5s, color 1s; }
+		.hoverbox:hover { box-shadow: -3px 3px 10px; }
+		article { text-align: justify; }
+		header { text-align: center; }
+		footer { text-align: center; margin: auto; }
+	/* Link styling */
+		a, a:visited { outline: none; color: inherit; }
+		a:hover { text-decoration: none; }
 	/* Navigation bar */
-		nav a {
-			border-top: 1px solid;
+		nav a { border-top: 1px solid;
 			border-bottom: 1px solid;
 			border-right: 1px solid;
 			padding-right: 8px;
 			padding-left: 8px;
-			border-radius: 8px 8px 0 8px;
-			text-decoration: none;
-		}
-		nav a:first-child {
-			border-left: 1px solid;
-		}
+			text-decoration: none; }
+		nav a:first-child { border-left: 1px solid; }
 	</style>
 </head>
 <body><main>
@@ -157,13 +193,13 @@ else if (is_file($abspath)) {
 		if (empty($chunks[count($chunks)-1]))
 			 // Ignore the empty entry after the final '/'
 			array_pop($chunks);
-		foreach ($chunks as $chunk) {
+		foreach ($chunks as $n => $chunk) {
 			if (!is_file(CONFIG_DIARY_FSPATH.urldecode($chunkedpath).$chunk)) {
 				$chunk .= '/';
 			}
 			$chunkedpath .= urlencode($chunk);
 			$chunkedpath = str_replace("%2F", "/", $chunkedpath);
-			print "<a href='" . "$chunkedpath'>$chunk</a>";
+			print "<a class=hoverbox href='" . "$chunkedpath'>$chunk</a>";
 		}
 	}
 ?></nav>
@@ -184,7 +220,7 @@ else if (is_file($abspath)) {
 		);
 		print "<ul>";
 		foreach ($contents as $item) {
-			print "<li>";
+			print "<li class=hoverbox>";
 			$href = urlencode($path) . urlencode($item);
 			$href = str_replace("%2F", "/", $href);
 			if (is_file($abspath.$item)) {
