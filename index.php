@@ -1,21 +1,118 @@
 <?php
-define("WEB_ROOT", "https://prettyboytellem.com/writing");
+/* User configuration */
+define("CANON_WEBPATH", "/");
 define("DIARY", "/var/diary");
 
-$path = "/";
-if (!empty($_GET["path"]))
-	$path = $_GET["path"];
-if (strpos(realpath(DIARY.$path), realpath(DIARY)) === false)
-	die;
-if (is_file(DIARY.$path)) {
-	$mtype = mime_content_type(DIARY.$path);
-	if (explode('/', $mtype)[0] != 'text') {
-		header("Content-Type: $mtype");
-		header("Content-Length: " . filesize(DIARY.$path));
-		header("X-LIGHTTPD-send-file: " . DIARY.$path);
-	}
+// Current working directory
+$relpath = $_GET['path'] ?: '/';
+// Just write your own virtualization function!
+$abspath = realpath(DIARY . $relpath);
+if (is_dir($abspath)) $abspath .= '/';
+
+if (!$abspath) {
+	$errresponse = "$_SERVER[SERVER_PROTOCOL] 404 Not Found";
+	header($errresponse);
+}
+else if (strpos($abspath, DIARY) === false) {
+	$errresponse = "$_SERVER[SERVER_PROTOCOL] 403 Forbidden";
+	header($errresponse);
 }
 
+else if (is_file($abspath)) {
+	$mtype = mime_content_type($abspath);
+	if (explode('/', $mtype)[0] != 'text') {
+		$fsize = filesize($abspath);
+		header("Content-Type: $mtype");
+		header("Content-Length: $fsize");
+		header("X-LIGHTTPD-send-file: $abspath");
+		die;
+	}
+} ?>
+<!DOCTYPE HTML>
+<HTML>
+<head>
+	<title>BBDiary</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel=stylesheet href="<?php print CANON_WEBPATH?>yumi.css">
+</head>
+<body>
+<main class=explorer>
+<header>
+<h1>BBDiary</h1>
+<h3><?php
+	if ($errresponse) {
+		print '<a href="' . CANON_WEBPATH . '">Home</a>';
+	} else {
+		$chunks = explode('/', $relpath);
+		if (empty($chunks[count($chunks)-1]))
+			 // Ignore the empty entry after the final '/'
+			array_pop($chunks);
+		foreach ($chunks as $chunk) {
+			if (!is_file(DIARY.urldecode($chunkedpath).$chunk)) {
+				$chunk .= '/';
+			}
+			$chunkedpath .= urlencode($chunk);
+			$chunkedpath = str_replace("%2F", "/", $chunkedpath);
+			print " <a href='" . "$chunkedpath'>$chunk</a> ";
+		}
+	}
+?></h3>
+</header>
+<hr>
+<?php
+	if ($errresponse) {
+		print "<article>Error: $errresponse</article>";
+	}
+	else if (is_file($abspath)) {
+		$text = file_get_contents($abspath);
+		$text = bbbbbbb($text);
+		$text = nl22br($text);
+		print "<article>$text</article>";
+	} else if (is_dir($abspath)) {
+		$contents = array_diff(
+			scandir($abspath), array('.', '..')
+		);
+		print "<ul>";
+		foreach ($contents as $item) {
+			print "<li>";
+			$href = urlencode($path) . urlencode($item);
+			$href = str_replace("%2F", "/", $href);
+			if (is_file($abspath.$item)) {
+				print "<a href='"
+				. $href
+				. "'>$item</a>";
+			} else {
+				print "<a href='"
+				. $href
+				. "/'>$item</a>";
+			}
+			print "</li>";
+		}
+		print "</ul>";
+	}
+?></main>
+</body>
+</HTML>
+<?php
+/*
+ * Like strpos but does not loop over the
+ * entire string when given an offset
+*/
+function indexOf($string, $substring, $offset = 0)
+{
+	$stringlen = strlen($string);
+	$sublen = strlen($substring);
+	for ($i = $offset, $j = 0; $i < $stringlen; $i++) {
+		if ($string{$i} == $substring{$j}) {
+			if (!(++$j - $sublen))
+			return $i - $sublen + 1;
+		} else $j = 0;
+	}
+	return -1;
+}
+/*
+ * Magical BBCode parse
+*/
 function bbbbbbb($string)
 {
 	$opened = []; $contents = [];
@@ -93,78 +190,8 @@ function bbbbbbb($string)
 	$contents[] = substr($string, $offset);
 	return join($contents);
 }
-function indexOf($string, $substring, $offset = 0)
-{
-	$stringlen = strlen($string);
-	$sublen = strlen($substring);
-	for ($i = $offset, $j = 0; $i < $stringlen; $i++) {
-		if ($string{$i} == $substring{$j}) {
-			if (!(++$j - $sublen))
-			return $i - $sublen + 1;
-		} else $j = 0;
-	}
-	return -1;
-}
 function nl22br($string)
 {
 	return str_replace("\n\n", "<br/><br/>", $string);
 }
 ?>
-<HTML>
-<head>
-	<title>BBDiary</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel=stylesheet href="yumi.css">
-</head>
-<body>
-<main class=explorer>
-<header>
-<h1>BBDiary</h1>
-<h3><?php
-	$chunks = explode('/', $path);
-	if (empty($chunks[count($chunks)-1]))
-		array_pop($chunks); // Ignore the empty entry after the final '/'
-	foreach ($chunks as $chunk) {
-		if (!is_file(DIARY.urldecode($chunkedpath).$chunk)) {
-			$chunk .= '/';
-		}
-		$chunkedpath .= urlencode($chunk);
-		$chunkedpath = str_replace("%2F", "/", $chunkedpath);
-		print " <a href='" . WEB_ROOT . "$chunkedpath'>$chunk</a> ";
-	}
-?></h3>
-</header>
-<hr>
-<?php
-	if (is_file(DIARY.$path)) {
-		if (($text = file_get_contents(DIARY.$path)) === False) {
-			$text = 'You lack the requisite permissions';
-		}
-		$text = bbbbbbb($text);
-		$text = nl22br($text);
-		print "<article>$text</article>";
-	} else {
-		$contents = array_diff(
-			scandir(DIARY.$path), array('.', '..')
-		);
-		print "<ul>";
-		foreach ($contents as $item) {
-			print "<li>";
-			$href = urlencode($path) . urlencode($item);
-			$href = str_replace("%2F", "/", $href);
-			if (is_file(DIARY.$path.$item)) {
-				print "<a href='"
-				. WEB_ROOT . $href
-				. "'>$item</a>";
-			} else {
-				print "<a href='"
-				. WEB_ROOT . $href
-				. "/'>$item</a>";
-			}
-			print "</li>";
-		}
-		print "</ul>";
-	}
-?></main>
-</body>
-</HTML>

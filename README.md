@@ -19,8 +19,24 @@ Adjust the configuration in the preamble of `index.php` to match your
 system. A lot of these options are important in creating a working install,
 so do not forget this step!
 
-Finally, host the repository folder using your favorite webserver (Apache,
-nginx, lighttpd, etc.)
+Next, host the repository folder using your favorite webserver (Apache,
+nginx, lighttpd, etc.) and ensure that the page displays properly
+
+### Clean URLs
+
+Lastly, you will need to add a rewrite rule to your webserver so you can
+access your entries using a more semantic URL. The following rules rewrite
+all characters past `/path/to/bbdiary` in the request to mean a path for an
+entry. For example, `/path/to/bbdiary/2015/` would be rewritten to
+`/path/to/bbdiary?path=/2015` for use in our script.
+
+#### Lighttpd
+
+In your server block:
+
+	url.rewrite-if-not-file = (
+		"^/path/to/bbdiary(.+)$" => "/path/to/bbdiary?path=$1"
+	)
 
 ## Writing Entries
 
