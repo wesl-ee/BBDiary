@@ -4,11 +4,22 @@
  *
  * Prettyboy-yumi
 */
-define("CONFIG_BBDIARY_HOMEPAGE", "http://bbdiary.prettyboytellem.com/");
-define("CONFIG_DIARY_FSPATH", "/var/http/bbdemo");
-define("CONFIG_APACHE2_XSENDFILE", false);
-define("CONFIG_LIGHTTPD_XSENDFILE", false);
 
+/* CONFIG_BBDIARY_HOMEPAGE
+ * A URL to this diary */
+define("CONFIG_BBDIARY_HOMEPAGE", "http://bbdiary.prettyboytellem.com/");
+/* CONFIG_DIARY_FSPATH
+ * The directory you will be serving */
+define("CONFIG_DIARY_FSPATH", "/var/http/bbdemo");
+/* CONFIG_APACHE2_XSENDFILE
+ * Enable this if you are running Apache with XSendfile */
+define("CONFIG_APACHE2_XSENDFILE", false);
+/* CONFIG_NGINX_XSENDFILE
+ * Enable this if you are running nginx with XSendfile */
+define("CONFIG_NGINX_XSENDFILE", false);
+/* CONFIG_LIGHTTPD_XSENDFILE
+ * Enable this if you are running lighttpd with XSendfile */
+define("CONFIG_LIGHTTPD_XSENDFILE", false);
 
 /******************************************************\
 * You probably don't need to touch anything below here *
@@ -44,6 +55,8 @@ else if (is_file($abspath)) {
 			header("X-LIGHTTPD-send-file: $abspath");
 		else if (CONFIG_APACHE2_XSENDFILE)
 			header("X-Sendfile: $abspath");
+		else if (CONFIG_NGINX_XSENDFILE)
+			header("X-Accel-Redirect: $abspath");
 		else
 			readfile($abspath);
 		die;
