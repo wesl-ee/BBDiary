@@ -8,8 +8,8 @@
 /*
  * User configuration
 */
-define("CANON_WEBPATH", "/");
-define("DIARY", "/var/http/bbdemo");
+define("CONFIG_BBDIARY_HOMEPAGE", "http://bbdiary.prettyboytellem.com/");
+define("CONFIG_DIARY_FSPATH", "/var/http/bbdemo");
 
 
 /******************************************************\
@@ -21,7 +21,7 @@ define("DIARY", "/var/http/bbdemo");
 // Current working directory
 $relpath = $_GET['path'] ?: '/';
 // Just write your own virtualization function!
-$abspath = realpath(DIARY . $relpath);
+$abspath = realpath(CONFIG_DIARY_FSPATH . $relpath);
 if (is_dir($abspath)) $abspath .= '/';
 
 /* Error Handling */
@@ -29,11 +29,14 @@ if (!$abspath) {
 	$errresponse = "$_SERVER[SERVER_PROTOCOL] 404 Not Found";
 	header($errresponse);
 }
-else if (strpos($abspath, DIARY) === false) {
+else if (strpos($abspath, CONFIG_DIARY_FSPATH) === false) {
 	$errresponse = "$_SERVER[SERVER_PROTOCOL] 403 Forbidden";
 	header($errresponse);
 }
-
+else if (!is_readable($abspath)) {
+	$errresponse = "$_SERVER[SERVER_PROTOCOL] 403 Forbidden";
+	header($errresponse);
+}
 else if (is_file($abspath)) {
 	$mtype = mime_content_type($abspath);
 	if (explode('/', $mtype)[0] != 'text') {
@@ -49,6 +52,7 @@ else if (is_file($abspath)) {
 <head>
 	<title>BBDiary</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href="data:image/x-icon;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQEAYAAABPYyMiAAAABmJLR0T///////8JWPfcAAAACXBIWXMAAABIAAAASABGyWs+AAAAF0lEQVRIx2NgGAWjYBSMglEwCkbBSAcACBAAAeaR9cIAAAAASUVORK5CYII=" rel="icon" type="image/x-icon">
 	<style>
 	/* Main Layout */
 		body {
@@ -70,6 +74,9 @@ else if (is_file($abspath)) {
 			Palatino,
 			serif;
 			font-weight: lighter;
+		}
+		h1 a, h2 a, h3 a {
+			text-decoration: none;
 		}
 	/* Reader */
 		main {
@@ -140,17 +147,15 @@ else if (is_file($abspath)) {
 </head>
 <body><main>
 <header>
-<h1>BBDiary</h1>
+<h1><a href="<?php print CONFIG_BBDIARY_HOMEPAGE?>">BBDiary</a></h1>
 <nav><?php
-	if ($errresponse) {
-		print '<a href="' . CANON_WEBPATH . '">Home</a>';
-	} else {
+	if (!$errresponse) {
 		$chunks = explode('/', $relpath);
 		if (empty($chunks[count($chunks)-1]))
 			 // Ignore the empty entry after the final '/'
 			array_pop($chunks);
 		foreach ($chunks as $chunk) {
-			if (!is_file(DIARY.urldecode($chunkedpath).$chunk)) {
+			if (!is_file(CONFIG_DIARY_FSPATH.urldecode($chunkedpath).$chunk)) {
 				$chunk .= '/';
 			}
 			$chunkedpath .= urlencode($chunk);
