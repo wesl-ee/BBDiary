@@ -1,9 +1,6 @@
 <?php
-/*
- * BBDiary: A girl's diary on one page
- *
- * Prettyboy-yumi
-*/
+/* BBDiary: A girl's diary on one page
+ * Prettyboy-yumi */
 
 /* CONFIG_BBDIARY_HOMEPAGE
  * A URL to this diary */
@@ -21,18 +18,18 @@ define("CONFIG_NGINX_XSENDFILE", false);
  * Enable this if you are running lighttpd with XSendfile */
 define("CONFIG_LIGHTTPD_XSENDFILE", false);
 
-/******************************************************\
+/*******************************************************
 * You probably don't need to touch anything below here *
 * unless you are contributing                          *
 * of course                            ~Prettyboy-yumi *
-\******************************************************/
+*******************************************************/
 
 // Current working directory
 $relpath = $_GET['path'] ?: '/';
 $abspath = realpath(CONFIG_DIARY_FSPATH . $relpath);
 if (is_dir($abspath)) $abspath .= '/';
 
-/* Error Handling */
+// Error handling
 if (!$abspath) {
 	$errresponse = "$_SERVER[SERVER_PROTOCOL] 404 Not Found";
 	header($errresponse);
@@ -67,7 +64,7 @@ else if (is_file($abspath)) {
 <head>
 	<title>My BBDiary</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<!-- BB Diary favicon -->
+	<!-- BBDiary Favicon -->
 	<link href="data:image/ico;base64,AAABAAEAEBAQAAAAAAAoAQAAFgAAACgAAAAQA
 	AAAIAAAAAEABAAAAAAAgAAAAAAAAAAAAAAAEAAAAAAAAAD/ScwAAAAAAP8AAAD///8AAAAA
 	AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAERERERERERE
@@ -77,10 +74,7 @@ else if (is_file($abspath)) {
 	AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" rel=icon type="image/x-icon">
 	<style>
 	/* Main Layout */
-		body {
-			background-color: aliceblue;
-			color: black;
-
+		body { background-color: aliceblue; color: black;
 			/* Starry background */
 			background-image: url('data:image/gif;base64,R0lGODlh\
 			LAEsAZEAAP/83y4QUR0AQv///yH/C05FVFNDQVBFMi4wAwEAAAAh+\
@@ -202,7 +196,8 @@ else if (is_file($abspath)) {
 <nav><?php
 		$chunks = explode('/', $relpath);
 		if (empty($chunks[count($chunks)-1]))
-			 // Ignore the empty item for directories
+			// Ignore the empty item for directories
+			// (trailing slash)
 			array_pop($chunks);
 		foreach ($chunks as $n => $chunk) {
 			if (!is_file(CONFIG_DIARY_FSPATH
@@ -211,41 +206,55 @@ else if (is_file($abspath)) {
 				$chunk .= '/';
 			$chunkedpath .= urlencode($chunk);
 			$chunkedpath = str_replace("%2F", "/", $chunkedpath);
-			print "<a class=hoverbox href='$chunkedpath'>$chunk</a>";
+			print <<<HOVERBOX
+<a class=hoverbox href="$chunkedpath">$chunk</a>
+HOVERBOX;
 		}
 ?></nav>
 </header>
 <hr>
 <?php
 	if ($errresponse) {
-		print "<article>Error: $errresponse</article>";
+		print <<<ERRRESP
+	<article>Error: $errresponse</article>
+
+ERRRESP;
 	}
 	else if (is_file($abspath)) {
 		$text = file_get_contents($abspath);
 		$text = bbbbbbb($text);
 		$text = nl22br($text);
-		print "<article>$text</article>";
+		print <<<RESP
+	<article>$text</article>
+
+RESP;
 	} else if (is_dir($abspath)) {
 		$contents = array_diff(
 			scandir($abspath), array('.', '..')
 		);
-		print "<ul>";
+		print <<<UL
+	<ul>
+
+UL;
 		foreach ($contents as $item) {
-			print "<li class=hoverbox>";
 			$href = urlencode($path) . urlencode($item);
 			$href = str_replace("%2F", "/", $href);
 			if (is_file($abspath.$item)) {
-				print "<a href='"
-				. $href
-				. "'>$item</a>";
+				print <<<FHREF
+		<li><a class=hoverbox href="$href">$item</a></li>
+
+FHREF;
 			} else {
-				print "<a href='"
-				. $href
-				. "/'>$item</a>";
+				print <<<DHREF
+		<li><a class=hoverbox href="$href/">$item</a></li>
+
+DHREF;
 			}
-			print "</li>";
 		}
-		print "</ul>";
+		print <<<EOUL
+	</ul>
+
+EOUL;
 	}
 ?></main>
 </body>
