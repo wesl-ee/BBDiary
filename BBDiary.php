@@ -18,7 +18,6 @@ define("CONFIG_LIGHTTPD_XSENDFILE", false);
 
 // Current working directory
 $relpath = $_GET['path'] ?: '/';
-// Just write your own virtualization function!
 $abspath = realpath(CONFIG_DIARY_FSPATH . $relpath);
 if (is_dir($abspath)) $abspath .= '/';
 
@@ -188,20 +187,19 @@ else if (is_file($abspath)) {
 <header>
 <h1><a href="<?php print CONFIG_BBDIARY_HOMEPAGE?>">BBDiary</a></h1>
 <nav><?php
-	if (!$errresponse) {
 		$chunks = explode('/', $relpath);
 		if (empty($chunks[count($chunks)-1]))
-			 // Ignore the empty entry after the final '/'
+			 // Ignore the empty item for directories
 			array_pop($chunks);
 		foreach ($chunks as $n => $chunk) {
-			if (!is_file(CONFIG_DIARY_FSPATH.urldecode($chunkedpath).$chunk)) {
+			if (!is_file(CONFIG_DIARY_FSPATH
+			. urldecode($chunkedpath) . $chunk)
+			|| (count($chunks) - $n - 1))
 				$chunk .= '/';
-			}
 			$chunkedpath .= urlencode($chunk);
 			$chunkedpath = str_replace("%2F", "/", $chunkedpath);
-			print "<a class=hoverbox href='" . "$chunkedpath'>$chunk</a>";
+			print "<a class=hoverbox href='$chunkedpath'>$chunk</a>";
 		}
-	}
 ?></nav>
 </header>
 <hr>
