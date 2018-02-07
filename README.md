@@ -1,7 +1,7 @@
 # BBDiary
 
-A simple file-browser written in PHP, intended for diary-keeping and other
-girly things; entries written using BBCode Markup (reference below)
+A simple file-browser written in one PHP file, intended for diary-keeping and
+other girly things; entries are styled using BBCode Markup (reference below)
 
 ## Requisites
 
@@ -19,8 +19,8 @@ Adjust the configuration in the preamble of `index.php` to match your
 system. A lot of these options are important in creating a working install,
 so do not forget this step!
 
-Next, host the repository folder using your favorite webserver (Apache,
-nginx, lighttpd, etc.) and ensure that the page displays properly
+Next, host `BBDiary.php` using your favorite webserver (Apache,
+nginx, lighttpd, etc.).
 
 ### Clean URLs
 
