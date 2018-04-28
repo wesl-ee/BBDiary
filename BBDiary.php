@@ -17,6 +17,10 @@ define("CONFIG_NGINX_XSENDFILE", false);
 /* CONFIG_LIGHTTPD_XSENDFILE
  * Enable this if you are running lighttpd with XSendfile */
 define("CONFIG_LIGHTTPD_XSENDFILE", false);
+/* CONFIG_CLEAN_URL
+ * Enable only if you have followed the Clean URL steps laid
+ * out in the README */
+define("CONFIG_CLEAN_URL", true);
 
 /*******************************************************
 * You probably don't need to touch anything below here *
@@ -25,7 +29,7 @@ define("CONFIG_LIGHTTPD_XSENDFILE", false);
 *******************************************************/
 
 // Current working directory
-$relpath = $_GET['path'] ?: '/';
+$relpath = urldecode($_GET['path']) ?: '/';
 $abspath = realpath(CONFIG_DIARY_FSPATH . $relpath);
 if (is_dir($abspath)) $abspath .= '/';
 
@@ -206,8 +210,15 @@ else if (is_file($abspath)) {
 				$chunk .= '/';
 			$chunkedpath .= urlencode($chunk);
 			$chunkedpath = str_replace("%2F", "/", $chunkedpath);
+			if ($chunkedpath == '/')
+				$href = CONFIG_BBDIARY_HOMEPAGE;
+			else if (CONFIG_CLEAN_URL)
+				$href = $chunkedpath;
+			else
+				$href = "?path=$chunkedpath";
+
 			print <<<HOVERBOX
-<a class=hoverbox href="$chunkedpath">$chunk</a>
+<a class=hoverbox href="$href">$chunk</a>
 HOVERBOX;
 		}
 ?></nav>
@@ -237,8 +248,12 @@ RESP;
 
 UL;
 		foreach ($contents as $item) {
-			$href = urlencode($path) . urlencode($item);
+			$href = urlencode($relpath) . urlencode($item);
 			$href = str_replace("%2F", "/", $href);
+			if (CONFIG_CLEAN_URL)
+				$href = $href;
+			else
+				$href = "?path=$href";
 			if (is_file($abspath.$item)) {
 				print <<<FHREF
 		<li><a class=hoverbox href="$href">$item</a></li>

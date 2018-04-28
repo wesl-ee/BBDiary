@@ -19,26 +19,45 @@ Adjust the configuration in the preamble of `index.php` to match your
 system. A lot of these options are important in creating a working install,
 so do not forget this step!
 
-Next, host `BBDiary.php` using your favorite webserver (Apache,
+Lastly, host `BBDiary.php` using your favorite webserver (Apache,
 nginx, lighttpd, etc.). Alternatively, you may simply host the repository
 folder, (the `index.php` symbolic link is provided) if your webserver is
 already configured to host index files.
 
 ### Clean URLs
 
-Lastly, you will need to add a rewrite rule to your webserver so you can
-access your entries using a more semantic URL. The following rules rewrite
-all characters past `/path/to/bbdiary` in the request to mean a path for an
-entry. For example, `/path/to/bbdiary/2015/` would be rewritten to
-`/path/to/bbdiary?path=/2015` for use in our script.
+The config flag `CONFIG_CLEAN_URL` makes the URLs of your diary more
+semantic for your users and for search engines. For this flag to have
+any meaning, you must add a rewrite rule to your webserver.
+
+The following rules rewrite all characters past `/path/to/bbdiary` in the
+request URI to mean a path for an entry. If you enable this flag and
+implement the appropriate set of rules, your URLs will look like
+`/path/to/bbdiary/2015/` instead of `/path/to/bbdiary?path=/2015`
 
 #### Lighttpd
 
-In your server block:
+In `lighttpd.conf`, put:
+
+	server.modules = ( mod_rewrite, ... )
+
+And in your server block:
 
 	url.rewrite-if-not-file = (
 		"^/path/to/bbdiary(.+)$" => "/path/to/bbdiary?path=$1"
 	)
+
+#### NGINX
+
+Put the following in your server block:
+
+	location /path/to/bbdiary {
+		if ($query_string !~* ^?path=) {
+			rewrite ^/path/to/bbdiary(.+)$ /path/to/bbdiary?path=$1 break
+		}
+		# Adjust to your configuration
+		fastcgi_pass unix:/var/run/php-fpm.sock;
+	}
 
 ## Writing Entries
 
@@ -88,4 +107,8 @@ Here's an excerpt from one of my entries hosted by BBDiary on
 
 ## Contributing
 
-Contributions welcome!
+Contributions welcome! If you are interested in contributing, the first step
+is to clone this repository. Then either add your features and open a pull
+request or get in contact with me on
+[my website](https://prettyboytellem.com). . . I look forward to hearing from
+you!
